@@ -13,12 +13,108 @@
         
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; }
         
-        /* Card Pro */
         .card { background: #161b22; border: 1px solid #30363d; border-radius: 28px; padding: 30px; position: relative; height: 420px; display: flex; flex-direction: column; box-sizing: border-box; }
         
-        .score-circle { position: absolute; top: 30px; right: 30px; width: 65px; height: 65px; border: 4px solid #00d2ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; background: #0b0e14; }
+        .score-circle { position: absolute; top: 30px; right: 30px; width: 65px; height: 65px; border: 4px solid #00d2ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; background: #0b0e14; box-shadow: 0 0 15px rgba(0, 210, 255, 0.3); }
         
         .logo-box { width: 55px; height: 55px; background: white; border-radius: 12px; padding: 6px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; }
         .logo-box img { max-width: 100%; max-height: 100%; }
         
-        .bank-name { font-size: 26px; font-weight: 800; margin-bottom: 2px;
+        .bank-name { font-size: 26px; font-weight: 800; margin-bottom: 2px; }
+        .bank-url { font-size: 13px; color: #8b949e; margin-bottom: 15px; }
+        
+        .stars { font-size: 22px; margin-right: 5px; }
+        .badge { font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 8px; border: 1px solid; text-transform: uppercase; }
+
+        /* Area Store Potenziata */
+        .store-ratings { display: flex; justify-content: space-between; margin-top: 25px; padding: 25px 0; border-top: 1px solid #30363d; border-bottom: 1px solid #30363d; background: rgba(255,255,255,0.02); }
+        .store-item { display: flex; align-items: center; justify-content: center; width: 50%; gap: 12px; }
+        .store-icon-img { width: 28px; height: 28px; }
+        .apple-icon { filter: invert(1); } /* Rende il logo Apple bianco */
+        
+        .store-val { font-size: 32px; font-weight: 800; color: #fff; line-height: 1; }
+        .store-label { font-size: 10px; color: #8b949e; text-transform: uppercase; font-weight: 700; }
+        .store-text-box { display: flex; flex-direction: column; }
+        
+        .rev-info { margin-top: auto; padding-top: 15px; font-size: 14px; color: #8b949e; display: flex; justify-content: space-between; align-items: center; }
+        .trust-link { color: #00d2ff; text-decoration: none; font-weight: 700; border: 1px solid #00d2ff; padding: 5px 12px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>TRUST RADAR PRO</h1>
+        <p style="color: #8b949e;">Analisi Comparativa • 02 Aprile 2024</p>
+    </header>
+    <div class="grid" id="dashboard-grid">
+        <!-- I dati appariranno qui -->
+    </div>
+</div>
+
+<script>
+    // DATI AGGIORNATI (Formato ES5 ultra-compatibile)
+    var data = [
+        { name: 'Revolut', url: 'revolut.com', score: 4.7, revs: '382K', appS: 4.9, playS: 4.8 },
+        { name: 'Findomestic', url: 'findomestic.it', score: 4.4, revs: '23K', appS: 4.7, playS: 4.5 },
+        { name: 'BBVA Italia', url: 'bbva.it', score: 4.3, revs: '8.3K', appS: 4.8, playS: 4.8 },
+        { name: 'Fineco', url: 'finecobank.com', score: 4.2, revs: '58K', appS: 4.7, playS: 4.6 },
+        { name: 'BPER Banca', url: 'bper.it', score: 4.2, revs: '7.8K', appS: 4.7, playS: 4.6 },
+        { name: 'Mediolanum', url: 'bancamediolanum.it', score: 3.8, revs: '7.3K', appS: 4.5, playS: 4.7 },
+        { name: 'ING Italia', url: 'ing.it', score: 3.5, revs: '9K', appS: 4.4, playS: 4.5 },
+        { name: 'BNL Bnp Paribas', url: 'bnl.it', score: 2.5, revs: '3.8K', appS: 3.9, playS: 2.9 },
+        { name: 'UniCredit', url: 'unicredit.it', score: 2.1, revs: '3K', appS: 4.6, playS: 4.7 },
+        { name: 'Isybank', url: 'isybank.com', score: 2.0, revs: '753', appS: 4.6, playS: 4.1 },
+        { name: 'Credem', url: 'credem.it', score: 1.9, revs: '960', appS: 4.4, playS: 4.4 },
+        { name: 'Credit Agricole', url: 'credit-agricole.it', score: 1.8, revs: '117', appS: 4.6, playS: 4.5 },
+        { name: 'Intesa Sanpaolo', url: 'intesasanpaolo.com', score: 1.4, revs: '4.1K', appS: 4.6, playS: 4.5 },
+        { name: 'Poste Italiane', url: 'poste.it', score: 1.2, revs: '15K', appS: 4.7, playS: 4.5 },
+        { name: 'Banco Posta', url: 'poste.it', score: 1.2, revs: '266', appS: 4.7, playS: 4.5 }
+    ];
+
+    var appleImg = 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg';
+    var playImg = 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg';
+
+    var grid = document.getElementById('dashboard-grid');
+    var html = '';
+
+    for (var i = 0; i < data.length; i++) {
+        var b = data[i];
+        var color = b.score >= 4 ? '#00b67a' : (b.score >= 2.5 ? '#ff8622' : '#ff3722');
+        var status = b.score >= 4 ? 'ECCELLENTE' : (b.score >= 2.5 ? 'BUONO' : 'SCARSO');
+        
+        var starsHtml = '';
+        for (var s = 0; s < 5; s++) {
+            var sColor = s < Math.round(b.score) ? color : '#30363d';
+            starsHtml += '<span style="color:' + sColor + '">★</span>';
+        }
+
+        html += '<div class="card">' +
+            '<div class="score-circle">' + b.score.toFixed(1) + '</div>' +
+            '<div class="logo-box"><img src="https://www.google.com/s2/favicons?domain=' + b.url + '&sz=128"></div>' +
+            '<div class="bank-name">' + b.name + '</div>' +
+            '<div class="bank-url">' + b.url + '</div>' +
+            '<div><span class="stars">' + starsHtml + '</span>' +
+            '<span class="badge" style="color:' + color + '; border-color:' + color + '">' + status + '</span></div>' +
+            '<div class="store-ratings">' +
+                '<div class="store-item">' +
+                    '<img src="' + appleImg + '" class="store-icon-img apple-icon">' +
+                    '<div class="store-text-box"><span class="store-label">App Store</span><span class="store-val">' + b.appS.toFixed(1) + '</span></div>' +
+                '</div>' +
+                '<div class="store-item">' +
+                    '<img src="' + playImg + '" class="store-icon-img">' +
+                    '<div class="store-text-box"><span class="store-label">Play Store</span><span class="store-val">' + b.playS.toFixed(1) + '</span></div>' +
+                '</div>' +
+            '</div>' +
+            '<div class="rev-info">' +
+                '<span>Recensioni: <b>' + b.revs + '</b></span>' +
+                '<a href="https://it.trustpilot.com/review/' + b.url + '" target="_blank" class="trust-link">Vedi ↗</a>' +
+            '</div>' +
+        '</div>';
+    }
+
+    grid.innerHTML = html;
+</script>
+
+</body>
+</html>
