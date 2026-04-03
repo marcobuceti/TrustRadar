@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust Radar Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0b0e14; --card-bg: #161b22; --border: #30363d; --neon: #00d2ff; --accent: #ff4bb4; --green: #00b67a; --red: #ff3722; --orange: #ff8622; }
+        body { background-color: var(--bg); color: white; font-family: 'Inter', sans-serif; margin: 0; padding: 40px 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 50px; }
+        h1 { font-size: 50px; font-weight: 800; background: linear-gradient(90deg, var(--accent), var(--neon)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
+        .update-tag { color: #8b949e; font-size: 14px; margin-top: 10px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        
+        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 25px; position: relative; transition: 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+        .card:hover { border-color: var(--neon); transform: translateY(-5px); box-shadow: 0 0 20px rgba(0, 210, 255, 0.15); }
+        
+        .score-circle { position: absolute; top: 25px; right: 25px; width: 60px; height: 60px; border: 4px solid var(--neon); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; background: var(--bg); }
+        
+        .logo-box { width: 50px; height: 50px; background: white; border-radius: 12px; padding: 5px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+        .logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        
+        .bank-name { font-size: 24px; font-weight: 700; margin-bottom: 5px; }
+        .bank-url { font-size: 13px; color: #8b949e; margin-bottom: 20px; }
+        
+        .stars { font-size: 20px; margin-right: 5px; }
+        .badge { font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 5px; border: 1px solid; text-transform: uppercase; margin-left: 10px; }
+        
+        .rev-info { margin-top: 30px; font-size: 14px; color: #8b949e; display: flex; justify-content: space-between; align-items: center; }
+        .trust-link { color: var(--neon); text-decoration: none; font-size: 13px; }
+        
+        .trend-up { color: #00ff88; } .trend-down { color: var(--red); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>TRUST RADAR</h1>
+        <div class="update-tag" id="last-update">Aggiornato oggi</div>
+    </header>
+
+    <div class="grid" id="dashboard-grid">
+        <!-- Le card verranno generate qui dal Javascript -->
+    </div>
+</div>
+
+<script>
+    // --- I TUOI DATI (Aggiornali qui quando vuoi) ---
+    const data = [
+        { name: "BBVA Italia", url: "bbva.it", score: 4.8, revs: "16K", trend: "up" },
+        { name: "Revolut", url: "revolut.com", score: 4.2, revs: "148K", trend: "stable" },
+        { name: "Fineco", url: "finecobank.com", score: 4.1, revs: "26K", trend: "up" },
+        { name: "Isybank", url: "isybank.com", score: 3.9, revs: "1.3K", trend: "up" },
+        { name: "Findomestic", url: "findomestic.it", score: 3.4, revs: "19K", trend: "down" },
+        { name: "Mediolanum", url: "bancamediolanum.it", score: 2.4, revs: "2.2K", trend: "stable" },
+        { name: "BPER Banca", url: "bper.it", score: 2.1, revs: "3.8K", trend: "down" },
+        { name: "Credem", url: "credem.it", score: 1.8, revs: "950", trend: "stable" },
+        { name: "Credit Agricole", url: "credit-agricole.it", score: 1.7, revs: "4.3K", trend: "down" },
+        { name: "ING Italia", url: "ing.it", score: 1.6, revs: "12K", trend: "down" },
+        { name: "UniCredit", url: "unicredit.it", score: 1.4, revs: "8.7K", trend: "down" },
+        { name: "Intesa Sanpaolo", url: "intesasanpaolo.com", score: 1.3, revs: "11K", trend: "down" },
+        { name: "BNL Bnp Paribas", url: "bnl.it", score: 1.2, revs: "5.5K", trend: "down" },
+        { name: "Poste Italiane", url: "poste.it", score: 1.2, revs: "26K", trend: "down" },
+        { name: "Banco Posta", url: "poste.it", score: 1.1, revs: "4.2K", trend: "down" }
+    ];
+
+    function renderDashboard() {
+        const grid = document.getElementById('dashboard-grid');
+        // Ordina per punteggio
+        data.sort((a, b) => b.score - a.score);
+
+        data.forEach(bank => {
+            const color = bank.score >= 4 ? '#00b67a' : (bank.score >= 3 ? '#ff8622' : '#ff3722');
+            const status = bank.score >= 4 ? 'ECCELLENTE' : (bank.score >= 3 ? 'BUONO' : 'SCARSO');
+            const trendIcon = bank.trend === 'up' ? '↑' : (bank.trend === 'down' ? '↓' : '→');
+            const trendClass = bank.trend === 'up' ? 'trend-up' : (bank.trend === 'down' ? 'trend-down' : '');
+            
+            // Genera Stelline
+            let stars = "";
+            for(let i=0; i<5; i++) {
+                stars += `<span style="color: ${i < Math.round(bank.score) ? color : '#30363d'}">★</span>`;
+            }
+
+            const card = `
+                <div class="card">
+                    <div class="score-circle">${bank.score}</div>
+                    <div class="logo-box">
+                        <img src="https://www.google.com/s2/favicons?domain=${bank.url}&sz=128" alt="logo">
+                    </div>
+                    <div class="bank-name">${bank.name}</div>
+                    <div class="bank-url">${bank.url}</div>
+                    <div>
+                        <span class="stars">${stars}</span>
+                        <span class="badge" style="color:${color}; border-color:${color}">${status}</span>
+                    </div>
+                    <div class="rev-info">
+                        <span>Recensioni: <b>${bank.revs}</b> <span class="${trendClass}">${trendIcon}</span></span>
+                        <a href="https://it.trustpilot.com/review/${bank.url}" target="_blank" class="trust-link">Trustpilot ↗</a>
+                    </div>
+                </div>
+            `;
+            grid.innerHTML += card;
+        });
+    }
+
+    document.getElementById('last-update').innerText = "Ultimo aggiornamento: " + new Date().toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+    renderDashboard();
+</script>
+
+</body>
+</html>
