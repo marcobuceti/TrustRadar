@@ -11,18 +11,23 @@
         header { text-align: center; margin-bottom: 50px; }
         h1 { font-size: 50px; font-weight: 800; color: #00d2ff; margin: 0; letter-spacing: -2px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; }
-        .card { background: #161b22; border: 1px solid #30363d; border-radius: 28px; padding: 30px; position: relative; height: 400px; display: flex; flex-direction: column; box-sizing: border-box; }
-        .score-circle { position: absolute; top: 30px; right: 30px; width: 65px; height: 65px; border: 4px solid #00d2ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; background: #0b0e14; box-shadow: 0 0 15px rgba(0, 210, 255, 0.3); }
+        .card { background: #161b22; border: 1px solid #30363d; border-radius: 28px; padding: 30px; position: relative; height: 420px; display: flex; flex-direction: column; box-sizing: border-box; }
+        .score-circle { position: absolute; top: 30px; right: 30px; width: 65px; height: 65px; border: 4px solid #00d2ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; background: #0b0e14; }
         .logo-box { width: 55px; height: 55px; background: white; border-radius: 12px; padding: 6px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; }
         .logo-box img { max-width: 100%; max-height: 100%; }
         .bank-name { font-size: 26px; font-weight: 800; margin-bottom: 2px; }
         .bank-url { font-size: 13px; color: #8b949e; margin-bottom: 15px; }
         .stars { font-size: 22px; margin-right: 5px; color: #00b67a; }
         .badge { font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 8px; border: 1px solid; text-transform: uppercase; }
+        
+        /* Area Store Potenziata */
         .store-ratings { display: flex; justify-content: space-between; margin-top: 25px; padding: 25px 0; border-top: 1px solid #30363d; border-bottom: 1px solid #30363d; background: rgba(255,255,255,0.02); }
-        .store-item { display: flex; flex-direction: column; align-items: center; width: 50%; }
+        .store-item { display: flex; align-items: center; justify-content: center; width: 50%; gap: 10px; }
+        .store-icon { width: 24px; height: 24px; }
         .store-val { font-size: 32px; font-weight: 800; color: #fff; }
-        .store-label { font-size: 10px; color: #8b949e; text-transform: uppercase; font-weight: 700; }
+        .store-label { font-size: 10px; color: #8b949e; text-transform: uppercase; font-weight: 700; margin-bottom: 2px; }
+        .store-text-box { display: flex; flex-direction: column; }
+        
         .rev-info { margin-top: auto; padding-top: 15px; font-size: 14px; color: #8b949e; display: flex; justify-content: space-between; align-items: center; }
         .trust-link { color: #00d2ff; text-decoration: none; font-weight: 700; border: 1px solid #00d2ff; padding: 5px 12px; border-radius: 10px; }
     </style>
@@ -32,15 +37,16 @@
 <div class="container">
     <header>
         <h1>TRUST RADAR PRO</h1>
-        <p style="color: #8b949e;">Dati aggiornati: 02 Aprile 2024</p>
+        <p style="color: #8b949e;">Analisi Comparativa • 02 Aprile 2024</p>
     </header>
-    <div class="grid" id="dashboard-grid">
-        <!-- Le card appariranno qui -->
-    </div>
+    <div class="grid" id="dashboard-grid"></div>
 </div>
 
 <script>
-    // USIAMO VAR E STRINGHE SEMPLICI PER MASSIMA COMPATIBILITÀ AZIENDALE
+    // Icone in formato stringa per massima compatibilità
+    var appleIcon = '<svg class="store-icon" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.1 2.48-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.31-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>';
+    var playIcon = '<svg class="store-icon" viewBox="0 0 24 24"><path d="M3.253 22.56c-.153.07-.34.06-.486-.03a.5.5 0 0 1-.223-.41V1.88a.5.5 0 0 1 .223-.41c.146-.09.333-.1.486-.03L19.53 11.59a.5.5 0 0 1 0 .82L3.253 22.56z" fill="#3ddc84"/></svg>';
+
     var data = [
         { name: "Revolut", url: "revolut.com", score: 4.7, revs: "382K", appS: 4.9, playS: 4.8 },
         { name: "Findomestic", url: "findomestic.it", score: 4.4, revs: "23K", appS: 4.7, playS: 4.5 },
@@ -53,47 +59,4 @@
         { name: "UniCredit", url: "unicredit.it", score: 2.1, revs: "3K", appS: 4.6, playS: 4.7 },
         { name: "Isybank", url: "isybank.com", score: 2.0, revs: "753", appS: 4.6, playS: 4.1 },
         { name: "Credem", url: "credem.it", score: 1.9, revs: "960", appS: 4.4, playS: 4.4 },
-        { name: "Credit Agricole", url: "credit-agricole.it", score: 1.8, revs: "117", appS: 4.6, playS: 4.5 },
-        { name: "Intesa Sanpaolo", url: "intesasanpaolo.com", score: 1.4, revs: "4.1K", appS: 4.6, playS: 4.5 },
-        { name: "Poste Italiane", url: "poste.it", score: 1.2, revs: "15K", appS: 4.7, playS: 4.5 },
-        { name: "Banco Posta", url: "poste.it", score: 1.2, revs: "266", appS: 4.7, playS: 4.5 }
-    ];
-
-    var grid = document.getElementById('dashboard-grid');
-    var html = "";
-
-    for (var i = 0; i < data.length; i++) {
-        var b = data[i];
-        var color = b.score >= 4 ? "#00b67a" : (b.score >= 2.5 ? "#ff8622" : "#ff3722");
-        var status = b.score >= 4 ? "ECCELLENTE" : (b.score >= 2.5 ? "BUONO" : "SCARSO");
-        
-        // Creazione stelline manuale
-        var starsHtml = "";
-        for (var s = 0; s < 5; s++) {
-            var sColor = s < Math.round(b.score) ? color : "#30363d";
-            starsHtml += '<span style="color:' + sColor + '">★</span>';
-        }
-
-        html += '<div class="card">' +
-            '<div class="score-circle">' + b.score.toFixed(1) + '</div>' +
-            '<div class="logo-box"><img src="https://www.google.com/s2/favicons?domain=' + b.url + '&sz=128"></div>' +
-            '<div class="bank-name">' + b.name + '</div>' +
-            '<div class="bank-url">' + b.url + '</div>' +
-            '<div><span class="stars">' + starsHtml + '</span>' +
-            '<span class="badge" style="color:' + color + '; border-color:' + color + '">' + status + '</span></div>' +
-            '<div class="store-ratings">' +
-                '<div class="store-item"><span class="store-label">App Store</span><span class="store-val">' + b.appS.toFixed(1) + '</span></div>' +
-                '<div class="store-item"><span class="store-label">Play Store</span><span class="store-val">' + b.playS.toFixed(1) + '</span></div>' +
-            '</div>' +
-            '<div class="rev-info">' +
-                '<span>Recensioni: <b>' + b.revs + '</b></span>' +
-                '<a href="https://it.trustpilot.com/review/' + b.url + '" target="_blank" class="trust-link">Vedi ↗</a>' +
-            '</div>' +
-        '</div>';
-    }
-
-    grid.innerHTML = html;
-</script>
-
-</body>
-</html>
+        { name: "Credit Agricole", url: "credit-agricole.it", score: 1.8, revs: "117", appS: 4.6, playS: 4.5 }
